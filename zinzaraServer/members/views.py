@@ -11,13 +11,20 @@ from .serializers import MembersSerializer
 
 
 @csrf_exempt
-def members_list(request):   # 여려명 조회
-    if request.method == "GET":   # 데이터 얻어올 떄
-        query_set = Members.objects.all()
-        serializer = MembersSerializer(query_set, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
-    elif request.method == "POST":   # 데이터 생성할 때
+def members(request):
+    # if request.method == "GET":   # 데이터 얻어올 떄
+    #     query_set = Members.objects.all()
+    #     serializer = MembersSerializer(query_set, many=True)
+    #     return JsonResponse(serializer.data, safe=False)
+    #
+    # elif request.method == "POST":   # 데이터 생성할 때
+    #     data = JSONParser().parse(request)
+    #     serializer = MembersSerializer(data=data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return JsonResponse(serializer.data, status=201)
+    #     return JsonResponse(serializer.errors, status=400)
+    if request.method == "POST":   # 사용자 추가하기
         data = JSONParser().parse(request)
         serializer = MembersSerializer(data=data)
         if serializer.is_valid():
@@ -27,23 +34,29 @@ def members_list(request):   # 여려명 조회
 
 
 @csrf_exempt
-def members(request, pk):   # 한명씩
-    obj = Members.objects.get(pk=pk)
-    if request.method == "GET":   # 데이터 얻어올 떄
-        serializer = MembersSerializer(obj)
-        return JsonResponse(serializer.data, safe=False)
+def members_info(request):
+    data = JSONParser().parse(request)
+    search_id = data["user_id"]
+    obj = Members.objects.get(user_id=search_id)
 
-    elif request.method == "PUT":   # 데이터 수정할 때
-        data = JSONParser().parse(request)
-        serializer = MembersSerializer(obj, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+    if data["pw"] == obj.pw:
+        if request.method == "DELETE":  # 사용자 삭제하기
+            obj.delete()
+            return HttpResponse(status=448)
 
-    elif request.method == "DELETE":
-        obj.delete()
-        return HttpResponse(status=204)
+        elif request.method == "GET":  # 사용자 정보 가져오기
+            serializer = MembersSerializer(obj)
+            return JsonResponse(serializer.data, safe=False)
+
+        elif request.method == "PUT":   # 사용자 정보 수정하기
+            serializer = MembersSerializer(obj, data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data, status=201)
+            return JsonResponse(serializer.errors, status=400)
+
+    else:
+        return HttpResponse(status=411)
 
 
 @csrf_exempt

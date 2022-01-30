@@ -18,13 +18,20 @@ from django.urls import path
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
-from members import views
+#from members import Mviews
+import members.views as Mviews
+#from devices import Dviews
+import devices.views as Dviews
+#from rehabilitation import Rviews
+import rehabilitation.views as Rviews
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth', include("rest_framework.urls", namespace="rest_framework")),
-    path('members/', views.members_list),
-    path('members/<int:pk>/', views.members),
-    path("login/", views.login),
+    path('members_info/', Mviews.members_info),
+    path('members/', Mviews.members),
+    path("login/", Mviews.login),
+    path("devices_info/", Dviews.devices_info),   # 기기 정보 가져오기, 기기 삭제하기
+    path("devices/", Dviews.devices)   # 기기 명령하기
 ]
