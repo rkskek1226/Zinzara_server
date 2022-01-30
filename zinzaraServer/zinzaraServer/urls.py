@@ -29,9 +29,11 @@ import rehabilitation.views as Rviews
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth', include("rest_framework.urls", namespace="rest_framework")),
-    path('members_info/', Mviews.members_info),
-    path('members/', Mviews.members),
-    path("login/", Mviews.login),
-    path("devices_info/", Dviews.devices_info),   # 기기 정보 가져오기, 기기 삭제하기
-    path("devices/", Dviews.devices)   # 기기 명령하기
+    path('members/', Mviews.members),   # 사용자 추가하기
+    path('members-info/', Mviews.members_info),   # 사용자 삭제하기, 정보 수정하기, 정보 가져오기
+    path("login/", Mviews.login),   # 로그인
+    path("devices/", Dviews.devices),   # 기기 명령하기
+    path("devices-info/", Dviews.devices_info),   # 기기 정보 가져오기, 기기 삭제하기
+    path("language-rehabilitation/", Rviews.language_rehabilitation),
+    path("physical-rehabilitation/", Rviews.physical_rehabilitation),
 ]

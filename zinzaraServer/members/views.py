@@ -12,25 +12,13 @@ from .serializers import MembersSerializer
 
 @csrf_exempt
 def members(request):
-    # if request.method == "GET":   # 데이터 얻어올 떄
-    #     query_set = Members.objects.all()
-    #     serializer = MembersSerializer(query_set, many=True)
-    #     return JsonResponse(serializer.data, safe=False)
-    #
-    # elif request.method == "POST":   # 데이터 생성할 때
-    #     data = JSONParser().parse(request)
-    #     serializer = MembersSerializer(data=data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return JsonResponse(serializer.data, status=201)
-    #     return JsonResponse(serializer.errors, status=400)
     if request.method == "POST":   # 사용자 추가하기
         data = JSONParser().parse(request)
         serializer = MembersSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+            return JsonResponse(serializer.data, status=210)
+        return JsonResponse(serializer.errors, status=410)
 
 
 @csrf_exempt
@@ -42,7 +30,7 @@ def members_info(request):
     if data["pw"] == obj.pw:
         if request.method == "DELETE":  # 사용자 삭제하기
             obj.delete()
-            return HttpResponse(status=448)
+            return HttpResponse(status=230)
 
         elif request.method == "GET":  # 사용자 정보 가져오기
             serializer = MembersSerializer(obj)
@@ -52,11 +40,11 @@ def members_info(request):
             serializer = MembersSerializer(obj, data=data)
             if serializer.is_valid():
                 serializer.save()
-                return JsonResponse(serializer.data, status=201)
-            return JsonResponse(serializer.errors, status=400)
+                return JsonResponse(serializer.data, status=220)
+            return JsonResponse(serializer.errors, status=420)
 
     else:
-        return HttpResponse(status=411)
+        return HttpResponse(status=430)
 
 
 @csrf_exempt

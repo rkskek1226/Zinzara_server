@@ -20,11 +20,11 @@ def devices(request):   # 기기 명령하기
             serializer = DevicesSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
-                return JsonResponse(serializer.data, status=202)
+                return JsonResponse(serializer.data, status=240)
             else:
-                return JsonResponse(serializer.errors, status=402)
+                return JsonResponse(serializer.errors, status=440)
         else:
-            return HttpResponse(status=444)
+            return HttpResponse(status=445)
 
 
 @csrf_exempt
@@ -33,10 +33,16 @@ def devices_info(request):   # 기기 정보(이름, 명령어, 시간) 가져�
     search_id = data["user_id"]
     obj = Devices.objects.filter(user_id=search_id)
 
-    if request.method == "GET":
-        serializer = DevicesSerializer(obj, many=True)
-        return JsonResponse(serializer.data, safe=False)
+    if data["pw"] == obj.pw:
+        if request.method == "GET":
+            serializer = DevicesSerializer(obj, many=True)
+            return JsonResponse(serializer.data, safe=False)
 
-    elif request.method == "DELETE":
-        obj.delete()
-        return HttpResponse(status=444)
+        elif request.method == "DELETE":
+            obj.delete()
+            return HttpResponse(status=250)
+
+    else:
+        return HttpResponse(status=450)
+
+
