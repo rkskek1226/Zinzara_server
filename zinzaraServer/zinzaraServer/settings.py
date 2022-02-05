@@ -25,7 +25,7 @@ SECRET_KEY = 'c1985rs230trabt#jooin^6g76xwybyt+^4s+m--dtcr$u1!9$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'members',
     'devices',
     'rehabilitation',
+    'gestures',
 ]
 
 MIDDLEWARE = [

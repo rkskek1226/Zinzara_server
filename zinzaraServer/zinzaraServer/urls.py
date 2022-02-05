@@ -24,6 +24,8 @@ import members.views as Mviews
 import devices.views as Dviews
 #from rehabilitation import Rviews
 import rehabilitation.views as Rviews
+import gestures.views as Gviews
+
 
 
 urlpatterns = [
@@ -36,4 +38,5 @@ urlpatterns = [
     path("devices-info/", Dviews.devices_info),   # 기기 정보 가져오기, 기기 삭제하기
     path("language-rehabilitation/", Rviews.language_rehabilitation),
     path("physical-rehabilitation/", Rviews.physical_rehabilitation),
+    path("gestures/", Gviews.gestures),
 ]
