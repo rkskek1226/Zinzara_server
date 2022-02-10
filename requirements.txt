@@ -17,10 +17,10 @@ google-auth==1.35.0
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
 grpcio==1.43.0
-h5py==3.0.0ain amd64 vim amd64 2:8.0.1453-1ubuntu1.8 [1154 kB]
-idna==3.3ain amd64 vim-tiny amd64 2:8.0.1453-1ubuntu1.8 [476 kB]
-importlib-metadata==4.8.2ain amd64 vim-runtime all 2:8.0.1453-1ubuntu1.8 [5435 kB]
-keras==2.7.0ain amd64 vim-common all 2:8.0.1453-1ubuntu1.8 [71.1 kB]
+h5py==3.0.0
+idna==3.3
+importlib-metadata==4.8.2
+keras==2.7.0
 Keras-Preprocessing==1.1.2
 kiwisolver==1.3.0
 libclang==13.0.0
