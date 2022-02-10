@@ -29,6 +29,7 @@ import gestures.views as Gviews
 
 
 urlpatterns = [
+    path("zinzara/", Mviews.hello),
     path('admin/', admin.site.urls),
     path('api-auth', include("rest_framework.urls", namespace="rest_framework")),
     path('members/', Mviews.members),   # 사용자 추가하기

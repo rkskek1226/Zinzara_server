@@ -11,6 +11,10 @@ from .serializers import MembersSerializer
 
 
 @csrf_exempt
+def hello(request):
+    return HttpResponse("Zinzara Server")
+
+@csrf_exempt
 def members(request):
     if request.method == "POST":   # 사용자 추가하기
         data = JSONParser().parse(request)
