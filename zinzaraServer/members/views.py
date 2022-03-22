@@ -58,6 +58,17 @@ def members_info(request):
 
 
 @csrf_exempt
+def pw_change(request):   # 11111111로 바꿔줌, PUT Method
+    data = JSONParser().parse(request)
+    search_id = data["user_id"]
+    obj = Members.objects.get(user_id=search_id)
+    serializer = MembersSerializer(obj, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return HttpResponse(status=431)
+
+
+@csrf_exempt
 def login(request):   # 로그인
     if request.method == "POST":
         data = JSONParser().parse(request)
