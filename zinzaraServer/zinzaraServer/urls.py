@@ -40,5 +40,5 @@ urlpatterns = [
     path("language-rehabilitation/", Rviews.language_rehabilitation),
     path("physical-rehabilitation/", Rviews.physical_rehabilitation),
     path("gestures/", Gviews.gestures),
-    path("pw-change/", Mviews.pw_change),
+    path("duplicate-check/", Mviews.duplicate_check),
 ]

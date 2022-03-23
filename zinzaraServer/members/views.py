@@ -17,7 +17,7 @@ def hello(request):
 
 @csrf_exempt
 def members(request):
-    if request.method == "POST":   # 사용자 추가하기
+    if request.method == "POST":  # 사용자 추가하기
         data = JSONParser().parse(request)
         user_id = data["user_id"]
         pw = data["pw"]
@@ -28,7 +28,7 @@ def members(request):
                 return JsonResponse(serializer.data, status=210)
             return JsonResponse(serializer.errors, status=410)
         else:
-            return HttpResponse(status=411)   # id, pw 길이 안맞으면 411 리턴
+            return HttpResponse(status=411)  # id, pw 길이 안맞으면 411 리턴
 
 
 @csrf_exempt
@@ -37,39 +37,34 @@ def members_info(request):
     search_id = data["user_id"]
     obj = Members.objects.get(user_id=search_id)
 
-    if data["pw"] == obj.pw:
-        if request.method == "DELETE":  # 사용자 삭제하기
-            obj.delete()
-            return HttpResponse(status=230)
-
-        elif request.method == "GET":  # 사용자 정보 가져오기
-            serializer = MembersSerializer(obj)
-            return JsonResponse(serializer.data, safe=False)
-
-        elif request.method == "PUT":   # 사용자 정보 수정하기
-            serializer = MembersSerializer(obj, data=data)
-            if serializer.is_valid():
-                serializer.save()
-                return JsonResponse(serializer.data, status=220)
-            return JsonResponse(serializer.errors, status=420)
-
+    if request.method == "PUT":  # 사용자 정보 수정하기
+        serializer = MembersSerializer(obj, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=220)
+        return JsonResponse(serializer.errors, status=420)
     else:
+        if data["pw"] == obj.pw:
+            if request.method == "DELETE":  # 사용자 삭제하기
+                obj.delete()
+                return HttpResponse(status=230)
+            elif request.method == "GET":  # 사용자 정보 가져오기
+                serializer = MembersSerializer(obj)
+                return JsonResponse(serializer.data, safe=False)
         return HttpResponse(status=430)
 
 
 @csrf_exempt
-def pw_change(request):   # 11111111로 바꿔줌, PUT Method
+def duplicate_check(request):
     data = JSONParser().parse(request)
-    search_id = data["user_id"]
-    obj = Members.objects.get(user_id=search_id)
-    serializer = MembersSerializer(obj, data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return HttpResponse(status=431)
+    if Members.objects.filter(user_id=data["user_id"]).exists():
+        return HttpResponse(status=235)
+    else:
+        return HttpResponse(status=435)
 
 
 @csrf_exempt
-def login(request):   # 로그인
+def login(request):  # 로그인
     if request.method == "POST":
         data = JSONParser().parse(request)
         search_id = data["user_id"]
@@ -79,4 +74,3 @@ def login(request):   # 로그인
             return HttpResponse(status=200)
         else:
             return HttpResponse(status=400)
-
