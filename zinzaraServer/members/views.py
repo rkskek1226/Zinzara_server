@@ -48,7 +48,7 @@ def members_info(request):
             if request.method == "DELETE":  # 사용자 삭제하기
                 obj.delete()
                 return HttpResponse(status=230)
-            elif request.method == "GET":  # 사용자 정보 가져오기
+            elif request.method == "POST":  # 사용자 정보 가져오기
                 serializer = MembersSerializer(obj)
                 return JsonResponse(serializer.data, safe=False)
         return HttpResponse(status=430)
