@@ -21,14 +21,16 @@ def members(request):
         data = JSONParser().parse(request)
         user_id = data["user_id"]
         pw = data["pw"]
-        if 4 < len(user_id) < 10 and 4 < len(pw) < 10:
+        if not 4 < len(user_id) < 10:
+            return HttpResponse(status=411)
+        elif not 4 < len(pw) < 10:
+            return HttpResponse(status=412)  # id 길이 안맞으면 411 리턴
+        else:
             serializer = MembersSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
                 return JsonResponse(serializer.data, status=210)
             return JsonResponse(serializer.errors, status=410)
-        else:
-            return HttpResponse(status=411)  # id, pw 길이 안맞으면 411 리턴
 
 
 @csrf_exempt
