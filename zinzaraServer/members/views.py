@@ -22,9 +22,9 @@ def members(request):
         user_id = data["user_id"]
         pw = data["pw"]
         if not 4 < len(user_id) < 10:
-            return HttpResponse(status=411)
+            return HttpResponse(status=411)   # id 길이 안맞으면 411 리턴
         elif not 4 < len(pw) < 10:
-            return HttpResponse(status=412)  # id 길이 안맞으면 411 리턴
+            return HttpResponse(status=412)   # pw 길이 안맞으면 412 리턴
         else:
             serializer = MembersSerializer(data=data)
             if serializer.is_valid():
